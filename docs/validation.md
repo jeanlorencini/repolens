@@ -1,4 +1,12 @@
-# Validation of version 1.1.0
+# Validation
+
+## Visual refresh in version 1.1.1
+
+The Headspace reference screens were inspected in Mobbin's enlarged viewer through OpenCLI. The options layout now includes a warm welcome panel, original static lens/document artwork, a numbered setup guide and a blue capsule action. The README toolbar, icon and documentation animation use the same palette. Reference URLs and the adaptation rationale are recorded in [design.md](design.md).
+
+The existing native Chrome checks were rerun for English and Brazilian Portuguese at desktop, 600px and 390px widths, including dark appearance and original/summary recovery. Reference captures and product screenshots remain local in ignored `artifacts/` folders. No Mobbin artwork is shipped in the extension.
+
+## Original bilingual release
 
 Checks performed on 2026-11-02:
 

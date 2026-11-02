@@ -44,7 +44,7 @@ test('locale catalogs have identical keys and localized options/content text', (
 
 test('manifest translations and requested icon paths are configured', () => {
   const manifest = require('../manifest.json');
-  assert.equal(manifest.version, '1.1.0');
+  assert.equal(manifest.version, '1.1.1');
   assert.equal(manifest.default_locale, 'en');
   assert.equal(manifest.name, '__MSG_extensionName__');
   assert.equal(manifest.description, '__MSG_extensionDescription__');

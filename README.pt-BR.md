@@ -4,7 +4,7 @@
 
 **Entenda os projetos do GitHub.** Extensão leve para Chrome que explica READMEs em linguagem simples, na própria página.
 
-[English](README.md) · [Licença MIT](LICENSE) · [Fonte da animação](docs/demo)
+[English](README.md) · [Licença MIT](LICENSE) · [Fonte da animação](docs/demo) · [Referências visuais](docs/design.md)
 
 Descubra o que um projeto faz, para quem ele serve e o que conferir antes de experimentar. Volte ao README original quando quiser. A extensão altera a visualização na aba; os arquivos do repositório ficam intactos.
 

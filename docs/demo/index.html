@@ -6,10 +6,27 @@
   <title>RepoLens — repositories, understood.</title>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
   <style>
-    *{box-sizing:border-box;margin:0;padding:0}html,body{width:960px;height:480px;overflow:hidden;background:#f3f4ef;color:#202825;font-family:Arial,sans-serif}
-    #main{width:960px;height:480px;position:relative;padding:40px 48px}.brand{display:flex;align-items:center;gap:12px;font-size:23px;font-weight:700;letter-spacing:-.8px}.brand img{width:38px;height:38px}.badge{position:absolute;right:48px;top:47px;font-size:11px;letter-spacing:1.8px;text-transform:uppercase;color:#526158}
-    .headline{font-size:45px;line-height:1.08;letter-spacing:-2px;width:335px;margin-top:54px;font-weight:600}.sub{margin-top:22px;max-width:275px;font-size:16px;line-height:1.6;color:#58645b}.foot{position:absolute;left:48px;bottom:32px;font-size:11px;color:#58645b;letter-spacing:.8px}
-    .browser{position:absolute;right:48px;top:116px;width:450px;height:312px;border:1px solid #c9cfc8;border-radius:10px;overflow:hidden;background:#fff}.chrome{height:38px;border-bottom:1px solid #e0e4dd;background:#fafbf8;display:flex;align-items:center;padding:0 15px;gap:5px;font-size:11px;color:#59655d}.dot{width:6px;height:6px;border-radius:50%;background:#c1c8be}.url{margin-left:18px}.page{padding:20px 24px}.repo{font-size:13px;font-weight:600;margin-bottom:16px}.toolbar{display:flex;align-items:center;justify-content:space-between;border:1px solid #d7ded3;border-radius:5px;padding:9px 11px;background:#f6f8f3;font-size:11px}.original-link{color:#506558}.document{position:absolute;left:24px;right:24px;top:138px}.document h3{font-size:18px;margin-bottom:12px;letter-spacing:-.4px}.line{height:6px;background:#e4e8e0;border-radius:2px;margin:10px 0}.line:nth-child(3n){width:82%}.line:nth-child(4n){width:92%}.code{padding:10px;background:#f0f3ed;margin-top:14px;font-family:monospace;font-size:10px;line-height:1.7;color:#727f73}.summary{opacity:0}.summary h4{font-size:11px;margin:14px 0 5px;text-transform:uppercase;letter-spacing:.8px;color:#536350}.summary p{font-size:13px;line-height:1.55}.locale{position:absolute;right:63px;bottom:37px;font-size:10px;letter-spacing:.9px;color:#526158}.check{width:7px;height:7px;background:#3a6652;border-radius:50%;display:inline-block;margin-right:6px}.state{position:absolute;left:410px;top:86px;color:#536350;font-size:11px}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:960px;height:480px;overflow:hidden;background:#fff5e3;color:#39342f;font-family:Arial,sans-serif}
+    #main{position:relative;width:960px;height:480px;padding:40px 48px;background:#fff5e3}
+    .brand{display:flex;align-items:center;gap:12px;font-size:23px;font-weight:700;letter-spacing:-.8px}.brand img{width:38px;height:38px}
+    .badge{position:absolute;right:48px;top:47px;color:#686057;font-size:11px;letter-spacing:1.5px;text-transform:uppercase}
+    .headline{width:335px;margin-top:54px;font-size:45px;font-weight:700;line-height:1.08;letter-spacing:-2px}
+    .sub{max-width:280px;margin-top:22px;color:#686057;font-size:16px;line-height:1.6}
+    .foot{position:absolute;left:48px;bottom:32px;color:#686057;font-size:11px;letter-spacing:.7px}
+    .browser{position:absolute;right:48px;top:116px;width:450px;height:312px;overflow:hidden;border:1px solid #d9cdbb;border-radius:20px;background:#fffdfa;box-shadow:0 3px 0 #e8dac7}
+    .chrome{display:flex;align-items:center;gap:5px;height:38px;padding:0 15px;border-bottom:1px solid #e5ded5;background:#f8f5f1;color:#686057;font-size:11px}
+    .dot{width:6px;height:6px;border-radius:50%;background:#c6baaa}.url{margin-left:18px}
+    .page{padding:20px 24px}.repo{margin-bottom:16px;font-size:13px;font-weight:600}
+    .toolbar{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border:1px solid #e5d7be;border-radius:16px;background:#fff8eb;font-size:11px}
+    .toolbar strong::before{content:'';display:inline-block;width:8px;height:8px;margin-right:6px;border-radius:50%;background:#ffb64a}
+    .original-link{padding:5px 9px;border-radius:20px;background:#075de3;color:#fff;font-size:10px}
+    .document{position:absolute;left:24px;right:24px;top:138px}.document h3{margin-bottom:12px;font-size:18px;letter-spacing:-.4px}
+    .line{height:6px;margin:10px 0;border-radius:3px;background:#e5ded5}.line:nth-child(3n){width:82%}.line:nth-child(4n){width:92%}
+    .code{margin-top:14px;padding:10px;border-radius:10px;background:#f8f5f1;color:#686057;font-family:monospace;font-size:10px;line-height:1.7}
+    .summary{opacity:0}.summary h4{margin:14px 0 5px;color:#686057;font-size:11px;text-transform:uppercase;letter-spacing:.8px}.summary p{font-size:13px;line-height:1.55}
+    .locale{position:absolute;right:63px;bottom:35px;color:#686057;font-size:10px;letter-spacing:.8px}
+    .state{position:absolute;left:466px;top:88px;color:#686057;font-size:11px}
   </style>
 </head>
 <body>
@@ -26,7 +43,7 @@
       <div class="document original"><h3>Distributed task orchestration</h3><div class="line"></div><div class="line"></div><div class="line"></div><div class="code">export const queue = new TaskQueue();<br>await queue.dispatch(workflow);</div></div>
       <div class="document summary"><h3>A project, in plain language.</h3><h4>What is it?</h4><p>A tool that organizes tasks across computers<br>and keeps track of their progress.</p><h4>What should you know?</h4><p>Check requirements, costs and limitations<br>before choosing it for your work.</p></div>
     </div>
-    <div class="locale"><span class="check"></span>ENGLISH + PORTUGUÊS · AUTO-DETECTED</div>
+    <div class="locale">ENGLISH + PORTUGUÊS · AUTO-DETECTED</div>
   </div>
   <script>
     const tl=gsap.timeline({paused:true});

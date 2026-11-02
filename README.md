@@ -4,7 +4,7 @@
 
 **Repositories, understood.** A lightweight Chrome extension that explains GitHub READMEs in plain language, right where you read them.
 
-[Português brasileiro](README.pt-BR.md) · [MIT license](LICENSE) · [Animation source](docs/demo)
+[Português brasileiro](README.pt-BR.md) · [MIT license](LICENSE) · [Animation source](docs/demo) · [Design references](docs/design.md)
 
 RepoLens replaces the README view with a short explanation of what a project does, who it helps, and what to check before trying it. Switch back to the original at any time. Repository files stay intact.
 

@@ -49,7 +49,7 @@ fs.mkdirSync(output, { recursive:true });
         document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = RepoLensI18n.message(el.dataset.i18n));
         document.querySelectorAll('[data-i18n-placeholder]').forEach(el => el.placeholder = RepoLensI18n.message(el.dataset.i18nPlaceholder));
       }, {catalog,lang});
-      for(const [width,theme] of [[1080,'light'],[390,'light'],[1080,'dark']]) {
+      for(const [width,theme] of [[1080,'light'],[600,'light'],[390,'light'],[1080,'dark']]) {
         await page.setViewport({ width, height:1100 });
         await page.emulateMediaFeatures([{name:'prefers-color-scheme',value:theme}]);
         const dimensions = await page.evaluate(() => ({width:innerWidth, scroll:document.documentElement.scrollWidth, image:document.querySelector('h1 img').naturalWidth}));

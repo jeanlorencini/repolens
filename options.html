@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GitHub em Linguagem Simples — Configurações</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <main>
+    <h1>GitHub em linguagem simples</h1>
+    <p class="lead">Transforme o README em uma explicação curta no próprio GitHub. Um botão permite voltar ao texto original.</p>
+    <form id="settings">
+      <label for="endpoint">Endereço completo da API (Chat Completions)</label>
+      <input id="endpoint" type="url" spellcheck="false" required placeholder="https://api.exemplo.com/v1/chat/completions">
+      <p class="help">Exemplos: OpenRouter <code>https://openrouter.ai/api/v1/chat/completions</code> · Groq <code>https://api.groq.com/openai/v1/chat/completions</code> · Cerebras <code>https://api.cerebras.ai/v1/chat/completions</code></p>
+      <label for="model">Nome exato do modelo nesse provedor</label>
+      <input id="model" type="text" required spellcheck="false" placeholder="Ex.: openai/gpt-oss-120b">
+      <label for="apiKey">Chave da API (somente se o provedor exigir)</label>
+      <input id="apiKey" type="password" spellcheck="false" autocomplete="off" placeholder="Cole sua chave aqui">
+      <label class="toggle"><input id="enabled" type="checkbox" checked> Substituir automaticamente o README pela explicação</label>
+      <button type="submit">Salvar e permitir acesso ao provedor</button>
+      <p id="status" role="status"></p>
+    </form>
+    <section>
+      <h2>Como usar</h2>
+      <ol>
+        <li>Informe o mesmo modelo e o mesmo provedor da Webpage Summary.</li>
+        <li>Salve e confirme a permissão do Chrome para acessar o domínio da API.</li>
+        <li>Abra <a href="https://github.com/kunchenguid/backpass" target="_blank" rel="noopener noreferrer">kunchenguid/backpass</a> e veja a explicação no lugar do README.</li>
+      </ol>
+      <p>O texto original continua disponível no botão <strong>Ver README original</strong>. Nenhum arquivo do repositório é alterado.</p>
+      <p class="warning">Privacidade: a extensão envia o texto público do README ao servidor de IA informado. A chave fica salva no armazenamento local da extensão. Não use URLs de API de origem desconhecida.</p>
+      <p class="help">Esta versão funciona nas páginas principais dos repositórios públicos. Não analisa arquivos de código nem comprova afirmações feitas pelos autores do projeto.</p>
+    </section>
+  </main>
+  <script src="options.js"></script>
+</body>
+</html>

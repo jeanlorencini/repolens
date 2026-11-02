@@ -13,7 +13,6 @@ function validateEndpoint(raw) {
   return url;
 }
 
-chrome.action.onClicked.addListener(() => chrome.runtime.openOptionsPage());
 chrome.runtime.onInstalled.addListener(({ reason }) => {
   if (reason === 'install') chrome.runtime.openOptionsPage();
 });

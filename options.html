@@ -29,7 +29,7 @@
       <input id="model" type="text" required spellcheck="false" placeholder="Example: openai/gpt-oss-120b" data-i18n-placeholder="modelPlaceholder">
       <label for="apiKey" data-i18n="apiKeyLabel">API key (only if required by the provider)</label>
       <input id="apiKey" type="password" spellcheck="false" autocomplete="off" placeholder="Paste your key here" data-i18n-placeholder="apiKeyPlaceholder">
-      <label class="toggle"><input id="enabled" type="checkbox" checked> <span data-i18n="enabledLabel">Automatically replace the README with the explanation</span></label>
+      <label class="toggle"><input id="enabled" type="checkbox" checked> <span data-i18n="enabledLabel">Show the RepoLens button on repository pages</span></label>
       <button type="submit" data-i18n="saveButton">Save and allow access to provider</button>
       <p id="status" role="status"></p>
     </form>
@@ -38,10 +38,10 @@
       <ol>
         <li data-i18n="stepOne">Enter the same model and provider you use for Webpage Summary.</li>
         <li data-i18n="stepTwo">Save and confirm Chrome's permission to access the API domain.</li>
-        <li><span data-i18n="stepThreeBefore">Open</span> <a href="https://github.com/jeanlorencini/repolens" target="_blank" rel="noopener noreferrer">jeanlorencini/repolens</a> <span data-i18n="stepThreeAfter">to see the explanation in place of the README.</span></li>
+        <li><span data-i18n="stepThreeBefore">Open</span> <a href="https://github.com/jeanlorencini/repolens" target="_blank" rel="noopener noreferrer">jeanlorencini/repolens</a> <span data-i18n="stepThreeAfter">and click “Generate summary” above the README when you want an explanation.</span></li>
       </ol>
       <p data-i18n="originalNote">The original text remains available with the “View original README” button. No repository files are changed.</p>
-      <p class="warning" data-i18n="privacyNote">Visible README text and the repository URL are sent to your provider, including private repositories you can access. Disable automatic replacement to avoid sending their content.</p>
+      <p class="warning" data-i18n="privacyNote">Manual mode is the default. Enable automatic generation from the extension icon only if you want README text sent to your provider on page loads, including private repositories. Provider tokens may be used on each refresh.</p>
       <p class="help" data-i18n="limitationsNote">AI explanations may be inaccurate. Check the original documentation.</p>
     </section>
     </div>

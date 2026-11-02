@@ -49,6 +49,7 @@ test('manifest translations and requested icon paths are configured', () => {
   assert.equal(manifest.name, '__MSG_extensionName__');
   assert.equal(manifest.description, '__MSG_extensionDescription__');
   assert.equal(manifest.action.default_title, '__MSG_actionTitle__');
+  assert.equal(manifest.action.default_popup, 'popup.html');
   for (const size of [16, 32, 48, 128]) assert.equal(manifest.icons[size], `icons/icon-${size}.png`);
 });
 
@@ -57,4 +58,16 @@ test('content renderer inserts model output as text and never assigns it as HTML
   assert.match(source, /el\.textContent\s*=\s*match\[2\]\s*\|\|\s*match\[3\]/);
   assert.match(source, /document\.createTextNode\(line\.slice/);
   assert.doesNotMatch(source, /innerHTML\s*=\s*state\.markdown/);
+});
+
+test('popup and reading-panel translation keys exist in every catalog', () => {
+  const sources = ['popup.html', 'popup.js', 'content.js'].map(file => fs.readFileSync(require.resolve('../' + file), 'utf8'));
+  const keys = new Set(sources.flatMap(source => [
+    ...[...source.matchAll(/data-i18n="([A-Za-z]+)"/g)].map(match => match[1]),
+    ...[...source.matchAll(/\b(?:message|t|showStatus)\('([A-Za-z]+)'/g)].map(match => match[1])
+  ]));
+  for (const key of ['popupModeAuto', 'popupModeManual', 'originalMode', 'summaryMode', 'summaryFailed', 'loadingSummaryHint', 'summaryReadyHint', 'retrySummary']) keys.add(key);
+  for (const catalog of [en, pt]) {
+    for (const key of keys) assert.ok(catalog[key]?.message, `Missing translation: ${key}`);
+  }
 });

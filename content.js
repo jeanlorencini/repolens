@@ -1,8 +1,8 @@
 'use strict';
 (() => {
-  const IGNORE = Symbol('ignore');
-  let config = { enabled: true };
+  let config = { enabled: true, autoGenerate: false };
   let state = null;
+  let lastAutoUrl = null;
   let scanTimer;
 
   function isRepoRoot() {
@@ -69,11 +69,17 @@
 
   function updateToolbar() {
     if (!state) return;
+    state.toolbar.setAttribute('data-state', state.loading ? 'loading' : state.error ? 'error' : state.phase);
+    state.article.setAttribute('aria-busy', String(state.loading && state.phase !== 'original'));
+    state.mode.textContent = RepoLensI18n.message(state.loading ? 'generating' : state.error ? 'summaryFailed' : state.phase === 'simple' ? 'summaryMode' : 'originalMode');
+    state.hint.textContent = state.error || RepoLensI18n.message(state.loading ? 'loadingSummaryHint' : state.markdown ? 'summaryReadyHint' : config.autoGenerate ? 'autoSummaryHint' : 'manualSummaryHint');
     state.toggle.textContent = state.phase === 'original'
-      ? (state.markdown ? RepoLensI18n.message('showSummary') : RepoLensI18n.message('summaryGenerating'))
+      ? RepoLensI18n.message(state.markdown ? 'showSummary' : state.loading ? 'generating' : state.error ? 'retrySummary' : 'generateSummary')
       : RepoLensI18n.message('showOriginal');
+    state.toggle.disabled = state.phase === 'original' && state.loading;
+    state.reload.hidden = !state.markdown && state.phase === 'original';
     state.reload.disabled = state.loading;
-    state.reload.textContent = state.loading ? RepoLensI18n.message('generating') : RepoLensI18n.message('generateAgain');
+    state.reload.textContent = RepoLensI18n.message(state.loading ? 'generating' : state.error ? 'retrySummary' : 'generateAgain');
   }
 
   function showOriginal() {
@@ -85,7 +91,22 @@
 
   function showSummary() {
     if (!state || !state.markdown) return;
-    state.article.replaceChildren(renderMarkdown(state.markdown));
+    if (!state.summary) {
+      state.summary = renderMarkdown(state.markdown);
+      state.summary.setAttribute('role', 'region');
+      state.summary.setAttribute('aria-label', RepoLensI18n.message('summaryMode'));
+      const note = document.createElement('p');
+      note.className = 'gsl-summary-note';
+      note.textContent = RepoLensI18n.message('summaryDisclaimer');
+      state.summary.append(note);
+      if (state.truncated) {
+        const warning = document.createElement('p');
+        warning.className = 'gsl-summary-warning';
+        warning.textContent = RepoLensI18n.message('summaryTruncatedHint');
+        state.summary.append(warning);
+      }
+    }
+    state.article.replaceChildren(state.summary);
     state.phase = 'simple';
     updateToolbar();
   }
@@ -94,6 +115,7 @@
     if (!state) return;
     const box = document.createElement('div');
     box.className = isError ? 'gsl-status gsl-error' : 'gsl-status';
+    box.setAttribute('role', isError ? 'alert' : 'status');
     box.textContent = message;
     state.article.replaceChildren(box);
   }
@@ -101,7 +123,9 @@
   function generate(target) {
     if (target.loading) return;
     target.loading = true;
+    target.error = '';
     target.markdown = '';
+    target.summary = null;
     target.phase = 'loading';
     showStatus(RepoLensI18n.message('preparing'));
     updateToolbar();
@@ -113,16 +137,17 @@
       if (state !== target) return;
       target.loading = false;
       if (chrome.runtime.lastError) {
-        showStatus(RepoLensI18n.message('communicationError'), true);
+        target.error = RepoLensI18n.message('communicationError');
       } else if (response?.error) {
-        showStatus(response.error, true);
+        target.error = response.error;
       } else if (response?.markdown) {
         target.markdown = response.markdown;
         target.truncated = Boolean(response.truncated);
         if (target.phase !== 'original') showSummary();
       } else {
-        showStatus(RepoLensI18n.message('emptySummary'), true);
+        target.error = RepoLensI18n.message('emptySummary');
       }
+      if (target.error && target.phase !== 'original') showStatus(target.error, true);
       updateToolbar();
     });
   }
@@ -134,26 +159,44 @@
     if (originalText.trim().length < 40) return;
     const toolbar = document.createElement('div');
     toolbar.className = 'gsl-toolbar';
-    const label = document.createElement('span');
-    label.textContent = RepoLensI18n.message('toolbarBrand');
+    toolbar.setAttribute('role', 'region');
+    toolbar.setAttribute('aria-label', RepoLensI18n.message('toolbarBrand'));
+    const label = document.createElement('div');
     label.className = 'gsl-label';
+    const brand = document.createElement('span');
+    brand.className = 'gsl-brand';
+    brand.textContent = RepoLensI18n.message('toolbarBrand');
     const toggle = document.createElement('button');
     toggle.type = 'button';
+    toggle.className = 'gsl-toggle';
     const reload = document.createElement('button');
     reload.type = 'button';
+    reload.className = 'gsl-reload';
+    const mode = document.createElement('span');
+    mode.className = 'gsl-mode';
+    const heading = document.createElement('div');
+    heading.className = 'gsl-heading';
+    heading.append(brand, mode);
+    const hint = document.createElement('span');
+    hint.className = 'gsl-hint';
+    hint.setAttribute('aria-live', 'polite');
+    label.append(heading, hint);
     toolbar.append(label, toggle, reload);
     article.before(toolbar);
     state = {
       url: location.origin + location.pathname,
       article,
       toolbar,
+      mode,
+      hint,
       toggle,
       reload,
       originalHTML: article.innerHTML,
       originalText,
       markdown: '',
-      phase: 'loading',
+      phase: 'original',
       loading: false,
+      error: '',
       truncated: false
     };
     toggle.addEventListener('click', () => {
@@ -166,7 +209,11 @@
     reload.addEventListener('click', () => {
       if (state?.article === article) generate(state);
     });
-    generate(state);
+    updateToolbar();
+    if (config.autoGenerate && lastAutoUrl !== state.url) {
+      lastAutoUrl = state.url;
+      generate(state);
+    }
   }
 
   function scan() {
@@ -186,12 +233,15 @@
     scanTimer = setTimeout(scan, 250);
   }
 
-  chrome.storage.local.get(['enabled'], result => {
-    config = { enabled: result.enabled !== false };
+  chrome.storage.local.get(['enabled', 'autoGenerate'], result => {
+    config = { enabled: result.enabled !== false, autoGenerate: result.autoGenerate === true };
     scan();
   });
   chrome.storage.onChanged.addListener((changes, namespace) => {
-    if (namespace === 'local' && changes.enabled) {
+    if (namespace !== 'local') return;
+    // Alterar a preferência não autoriza uma nova chamada na página atual.
+    if (changes.autoGenerate) config.autoGenerate = changes.autoGenerate.newValue === true;
+    if (changes.enabled) {
       config.enabled = changes.enabled.newValue;
       scheduleScan();
     }

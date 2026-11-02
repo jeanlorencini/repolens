@@ -1,0 +1,16 @@
+{
+  "name": "repolens-readme-animation",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "lint": "hyperframes lint",
+    "render": "hyperframes render --format gif --fps 12 --quality delivery --workers 1 -o ../assets/repolens.gif"
+  },
+  "devDependencies": {
+    "ffprobe-static": "3.1.0",
+    "hyperframes": "0.9.5"
+  },
+  "overrides": {
+    "undici": "7.30.1"
+  }
+}

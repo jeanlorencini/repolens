@@ -1,0 +1,12 @@
+node_modules/
+.hyperframes/
+.env
+.env.*
+*.log
+*.bak*
+artifacts/
+dist/
+*.zip
+docs/demo/.cache/
+docs/demo/renders/
+docs/demo/snapshots/

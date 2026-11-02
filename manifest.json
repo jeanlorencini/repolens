@@ -1,18 +1,25 @@
 {
   "manifest_version": 3,
-  "name": "GitHub em Linguagem Simples",
-  "description": "Mostra uma explicação acessível no lugar do README, com botão para recuperar o original.",
-  "version": "1.0.0",
+  "name": "__MSG_extensionName__",
+  "description": "__MSG_extensionDescription__",
+  "version": "1.1.0",
+  "default_locale": "en",
   "permissions": ["storage"],
   "host_permissions": ["https://github.com/*"],
   "optional_host_permissions": ["https://*/*", "http://localhost/*", "http://127.0.0.1/*"],
   "background": {"service_worker": "background.js"},
   "content_scripts": [{
     "matches": ["https://github.com/*"],
-    "js": ["content.js"],
+    "js": ["i18n.js", "content.js"],
     "css": ["content.css"],
     "run_at": "document_idle"
   }],
   "options_page": "options.html",
-  "action": {"default_title": "Configurar GitHub em Linguagem Simples"}
+  "action": {"default_title": "__MSG_actionTitle__"},
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  }
 }

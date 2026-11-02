@@ -1,7 +1,7 @@
 'use strict';
 (() => {
   const IGNORE = Symbol('ignore');
-  let config = { enabled: false };
+  let config = { enabled: true };
   let state = null;
   let scanTimer;
 
@@ -70,10 +70,10 @@
   function updateToolbar() {
     if (!state) return;
     state.toggle.textContent = state.phase === 'original'
-      ? (state.markdown ? 'Ver explicação simples' : 'Ver explicação (ainda gerando)')
-      : 'Ver README original';
+      ? (state.markdown ? RepoLensI18n.message('showSummary') : RepoLensI18n.message('summaryGenerating'))
+      : RepoLensI18n.message('showOriginal');
     state.reload.disabled = state.loading;
-    state.reload.textContent = state.loading ? 'Gerando…' : 'Gerar novamente';
+    state.reload.textContent = state.loading ? RepoLensI18n.message('generating') : RepoLensI18n.message('generateAgain');
   }
 
   function showOriginal() {
@@ -103,7 +103,7 @@
     target.loading = true;
     target.markdown = '';
     target.phase = 'loading';
-    showStatus('Preparando explicação em linguagem simples…');
+    showStatus(RepoLensI18n.message('preparing'));
     updateToolbar();
     chrome.runtime.sendMessage({
       type: 'SIMPLIFY_README',
@@ -113,7 +113,7 @@
       if (state !== target) return;
       target.loading = false;
       if (chrome.runtime.lastError) {
-        showStatus('Erro de comunicação com a extensão. Abra as configurações e confira o modelo.', true);
+        showStatus(RepoLensI18n.message('communicationError'), true);
       } else if (response?.error) {
         showStatus(response.error, true);
       } else if (response?.markdown) {
@@ -121,7 +121,7 @@
         target.truncated = Boolean(response.truncated);
         if (target.phase !== 'original') showSummary();
       } else {
-        showStatus('A IA não retornou uma explicação.', true);
+        showStatus(RepoLensI18n.message('emptySummary'), true);
       }
       updateToolbar();
     });
@@ -135,7 +135,7 @@
     const toolbar = document.createElement('div');
     toolbar.className = 'gsl-toolbar';
     const label = document.createElement('span');
-    label.textContent = 'GitHub em linguagem simples';
+    label.textContent = RepoLensI18n.message('toolbarBrand');
     label.className = 'gsl-label';
     const toggle = document.createElement('button');
     toggle.type = 'button';
@@ -187,7 +187,7 @@
   }
 
   chrome.storage.local.get(['enabled'], result => {
-    config = result;
+    config = { enabled: result.enabled !== false };
     scan();
   });
   chrome.storage.onChanged.addListener((changes, namespace) => {

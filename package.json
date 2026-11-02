@@ -1,0 +1,7 @@
+{
+  "name": "repolens",
+  "private": true,
+  "scripts": {
+    "test": "node --test"
+  }
+}

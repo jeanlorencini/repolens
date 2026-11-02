@@ -1,39 +1,40 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>GitHub em Linguagem Simples — Configurações</title>
+  <title>RepoLens — Settings</title>
   <link rel="stylesheet" href="options.css">
 </head>
 <body>
   <main>
-    <h1>GitHub em linguagem simples</h1>
-    <p class="lead">Transforme o README em uma explicação curta no próprio GitHub. Um botão permite voltar ao texto original.</p>
+    <h1><img src="icons/icon-48.png" width="32" height="32" alt=""> RepoLens</h1>
+    <p class="lead" data-i18n="subtitle">Turn a README into a clear explanation right on GitHub. Use the button to return to the original text.</p>
     <form id="settings">
-      <label for="endpoint">Endereço completo da API (Chat Completions)</label>
-      <input id="endpoint" type="url" spellcheck="false" required placeholder="https://api.exemplo.com/v1/chat/completions">
-      <p class="help">Exemplos: OpenRouter <code>https://openrouter.ai/api/v1/chat/completions</code> · Groq <code>https://api.groq.com/openai/v1/chat/completions</code> · Cerebras <code>https://api.cerebras.ai/v1/chat/completions</code></p>
-      <label for="model">Nome exato do modelo nesse provedor</label>
-      <input id="model" type="text" required spellcheck="false" placeholder="Ex.: openai/gpt-oss-120b">
-      <label for="apiKey">Chave da API (somente se o provedor exigir)</label>
-      <input id="apiKey" type="password" spellcheck="false" autocomplete="off" placeholder="Cole sua chave aqui">
-      <label class="toggle"><input id="enabled" type="checkbox" checked> Substituir automaticamente o README pela explicação</label>
-      <button type="submit">Salvar e permitir acesso ao provedor</button>
+      <label for="endpoint" data-i18n="endpointLabel">Complete API URL (Chat Completions)</label>
+      <input id="endpoint" type="url" spellcheck="false" required placeholder="https://api.example.com/v1/chat/completions" data-i18n-placeholder="endpointPlaceholder">
+      <p class="help" data-i18n="providerExamples">Examples: OpenRouter, Groq, and Cerebras. Use the provider's complete Chat Completions URL.</p>
+      <label for="model" data-i18n="modelLabel">Exact model name at this provider</label>
+      <input id="model" type="text" required spellcheck="false" placeholder="Example: openai/gpt-oss-120b" data-i18n-placeholder="modelPlaceholder">
+      <label for="apiKey" data-i18n="apiKeyLabel">API key (only if required by the provider)</label>
+      <input id="apiKey" type="password" spellcheck="false" autocomplete="off" placeholder="Paste your key here" data-i18n-placeholder="apiKeyPlaceholder">
+      <label class="toggle"><input id="enabled" type="checkbox" checked> <span data-i18n="enabledLabel">Automatically replace the README with the explanation</span></label>
+      <button type="submit" data-i18n="saveButton">Save and allow access to provider</button>
       <p id="status" role="status"></p>
     </form>
     <section>
-      <h2>Como usar</h2>
+      <h2 data-i18n="howToUse">How to use</h2>
       <ol>
-        <li>Informe o mesmo modelo e o mesmo provedor da Webpage Summary.</li>
-        <li>Salve e confirme a permissão do Chrome para acessar o domínio da API.</li>
-        <li>Abra <a href="https://github.com/kunchenguid/backpass" target="_blank" rel="noopener noreferrer">kunchenguid/backpass</a> e veja a explicação no lugar do README.</li>
+        <li data-i18n="stepOne">Enter the same model and provider you use for Webpage Summary.</li>
+        <li data-i18n="stepTwo">Save and confirm Chrome's permission to access the API domain.</li>
+        <li><span data-i18n="stepThreeBefore">Open</span> <a href="https://github.com/jeanlorencini/repolens" target="_blank" rel="noopener noreferrer">jeanlorencini/repolens</a> <span data-i18n="stepThreeAfter">to see the explanation in place of the README.</span></li>
       </ol>
-      <p>O texto original continua disponível no botão <strong>Ver README original</strong>. Nenhum arquivo do repositório é alterado.</p>
-      <p class="warning">Privacidade: a extensão envia o texto público do README ao servidor de IA informado. A chave fica salva no armazenamento local da extensão. Não use URLs de API de origem desconhecida.</p>
-      <p class="help">Esta versão funciona nas páginas principais dos repositórios públicos. Não analisa arquivos de código nem comprova afirmações feitas pelos autores do projeto.</p>
+      <p data-i18n="originalNote">The original text remains available with the “View original README” button. No repository files are changed.</p>
+      <p class="warning" data-i18n="privacyNote">Visible README text and the repository URL are sent to your provider, including private repositories you can access. Disable automatic replacement to avoid sending their content.</p>
+      <p class="help" data-i18n="limitationsNote">AI explanations may be inaccurate. Check the original documentation.</p>
     </section>
   </main>
+  <script src="i18n.js"></script>
   <script src="options.js"></script>
 </body>
 </html>

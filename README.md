@@ -4,7 +4,7 @@
 
 **Repositories, understood.** A lightweight Chrome extension that explains GitHub READMEs in plain language, right where you read them.
 
-[Português brasileiro](README.pt-BR.md) · [MIT license](LICENSE) · [Animation source](docs/demo) · [Design references](docs/design.md)
+[Português brasileiro](README.pt-BR.md) · [MIT license](LICENSE)
 
 Get a short explanation of what a project does, who it helps, and what to check before trying it. Choose manual or automatic generation from the extension popup. Switch between the original README and the generated explanation without another AI request. Repository files stay intact.
 
@@ -14,7 +14,7 @@ Get a short explanation of what a project does, who it helps, and what to check 
 - **Keep context.** Regenerate the explanation or return to the original README with a click.
 - **Small by design.** No runtime packages, tracking services, remote fonts or animated extension icons.
 
-The header is an illustrative animation made with [Hyperframes](https://github.com/heygen-com/hyperframes), using a fictional repository and sample explanation.
+The header animation uses a fictional repository and sample explanation; it is not a recording of a live AI response.
 
 ## Install
 
@@ -36,7 +36,7 @@ Enter the full Chat Completions endpoint, the provider's exact model ID, and an 
 | Cerebras | `https://api.cerebras.ai/v1/chat/completions` |
 | Local server | `http://localhost:PORT/v1/chat/completions` |
 
-Choose a model available from your provider. A ChatGPT subscription does not supply an API key. Provider charges and rate limits may apply.
+Choose a model available from your provider. An API key is separate from a chat subscription. Provider charges and rate limits may apply.
 
 ## Choose manual or automatic mode
 
@@ -69,7 +69,7 @@ npm test
 
 The extension has no build step. Reload it at `chrome://extensions` and refresh GitHub tabs after editing runtime files. Translation catalogs live in `_locales/en` and `_locales/pt_BR`.
 
-See [docs/demo](docs/demo) for the separate Hyperframes project, render requirements and GIF regeneration. Documentation dependencies are not loaded by the extension.
+The optional animation source and rebuild instructions are in [docs/demo](docs/demo). Documentation dependencies are not loaded by the extension.
 
 ## License
 

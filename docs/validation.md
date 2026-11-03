@@ -1,22 +1,41 @@
 # Validation
 
-## Visual refresh in version 1.1.1
+## Regression checks
 
-The Headspace reference screens were inspected in Mobbin's enlarged viewer through OpenCLI. The options layout now includes a warm welcome panel, original static lens/document artwork, a numbered setup guide and a blue capsule action. The README toolbar, icon and documentation animation use the same palette. Reference URLs and the adaptation rationale are recorded in [design.md](design.md).
+Run `npm test` from the repository root. The suite covers:
 
-The existing native Chrome checks were rerun for English and Brazilian Portuguese at desktop, 600px and 390px widths, including dark appearance and original/summary recovery. Reference captures and product screenshots remain local in ignored `artifacts/` folders. No Mobbin artwork is shipped in the extension.
+- Locale selection, matching catalog keys, translated controls and outgoing AI instructions.
+- API authorization, rate-limit, server and network errors.
+- Manual generation by default, explicit automatic opt-in and preference persistence.
+- Loading states, failed saves, rollback and opening provider settings.
+- Original/summary switching, summary reuse, explicit retry and truncated-input notices.
+- Rendering model-supplied markup as text rather than executable HTML.
 
-## Original bilingual release
+## Browser checks
 
-Checks performed on 2026-11-02:
+Install the development dependencies in `docs/demo` with `npm ci --ignore-scripts`. From the repository root:
 
-- Node's built-in test runner covers locale selection, catalog keys, translated controls, localized outgoing AI instructions and user messages, API authorization/rate/server/network errors, and preservation of text-based model rendering.
-- JavaScript syntax checks cover the service worker, content script, settings script and shared localization helper.
-- `docs/demo/verify-ui.cjs` loads the actual MV3 extension in a clean Chrome for Testing session. It does not use a personal browser profile or API credentials. Native English, Brazilian Portuguese and Portugal Portuguese sessions exercise Chrome's real locale catalog selection. Portugal Portuguese intentionally uses the Brazilian translation.
-- The browser script also renders English and Brazilian Portuguese options at 1080px and 390px, with light and dark appearance. It checks for horizontal overflow and missing icons and captures local screenshots in the ignored `artifacts/` directory. Explicit catalog mocks allow comparing both languages within one browser session.
-- A separate browser fixture runs the actual content script with simulated Chrome messaging and a fixed model response. It exercises original/summary toggling and verifies that model-supplied HTML renders as text. This fixture does not query a live AI service or real GitHub account.
-- Hyperframes 0.9.5 lints and renders the README illustration to a 960 × 480 GIF, 108 frames over 9 seconds. The generated summary is illustrative. The original SVG mark supplies static PNG icons in four sizes.
+```sh
+node docs/demo/verify-popup.cjs
+node docs/demo/verify-ui.cjs --content-only
+```
 
-To repeat browser checks after installing the documentation dependencies, set `HYPERFRAMES_BROWSER_PATH` to a Chrome for Testing executable and run `node verify-ui.cjs` from `docs/demo`. Optionally set `REPOLENS_TEST_LANGUAGE` to `en-US`, `pt-BR` or `pt-PT`. A regular installed Google Chrome may ignore extension-loading flags; Chrome for Testing supports this isolated test.
+These checks use the actual interface files with simulated storage, messaging and fixed provider responses. They do not use API credentials or a personal browser profile. Screenshots are saved locally under ignored `artifacts/` directories.
 
-Live provider output quality, provider permission prompts in the user's installed browser, and future GitHub layout/protocol changes are outside these automated checks. After updating a local installation, reload the extension and refresh GitHub tabs.
+The popup checks cover both languages, keyboard interaction, preference persistence, failed-save rollback, light/dark appearance, reduced motion, high contrast and short viewports. An initial 80px viewport verifies that the popup retains its intrinsic 360px width instead of collapsing.
+
+The reading-panel checks cover both languages, desktop/mobile layouts, loading and error states, original/summary recovery, safe text rendering and prevention of duplicate automatic requests.
+
+### Native extension popup
+
+Set `HYPERFRAMES_BROWSER_PATH` to a browser executable that supports loading unpacked extensions, then run:
+
+```sh
+node docs/demo/verify-popup.cjs --native
+```
+
+This opens the actual toolbar popup in an isolated browser without overriding its viewport. It checks the 360px width, horizontal overflow and title wrapping. Run `node docs/demo/verify-ui.cjs` without `--content-only` for the native extension/options checks. `REPOLENS_TEST_LANGUAGE` selects the expected native interface language.
+
+## Limits
+
+Simulated provider responses do not establish live output quality, account permissions or provider latency. Future GitHub layout changes and permission prompts in the user's installed browser require separate checks. After updating a local installation, reload the extension and refresh GitHub tabs.

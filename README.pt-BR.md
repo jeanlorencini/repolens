@@ -4,7 +4,7 @@
 
 **Entenda os projetos do GitHub.** Extensão leve para Chrome que explica READMEs em linguagem simples, na própria página.
 
-[English](README.md) · [Licença MIT](LICENSE) · [Fonte da animação](docs/demo) · [Referências visuais](docs/design.md)
+[English](README.md) · [Licença MIT](LICENSE)
 
 Descubra o que o projeto faz, para quem ele serve e o que conferir antes de experimentar. Escolha a geração manual ou automática no popup da extensão. Alterne entre o README original e o resumo já gerado sem outra chamada à IA. Os arquivos do repositório ficam intactos.
 
@@ -14,7 +14,7 @@ Descubra o que o projeto faz, para quem ele serve e o que conferir antes de expe
 - Gere novamente ou recupere o original com um clique.
 - Sem dependências de execução, telemetria, fontes externas ou ícones animados.
 
-Idiomas portugueses usam pt-BR; os demais usam inglês. Após mudar o idioma da interface do Chrome, reinicie o navegador e atualize as abas. O GIF do cabeçalho foi gerado com [Hyperframes](https://github.com/heygen-com/hyperframes) e ilustra um repositório fictício.
+Idiomas portugueses usam pt-BR; os demais usam inglês. Após mudar o idioma da interface do Chrome, reinicie o navegador e atualize as abas. A animação do cabeçalho usa um repositório fictício e um resumo de exemplo; não é uma gravação de uma resposta real da IA.
 
 ## Instalar
 
@@ -36,7 +36,7 @@ Exemplos de endereços:
 - Cerebras: `https://api.cerebras.ai/v1/chat/completions`
 - Servidor local: `http://localhost:PORT/v1/chat/completions`
 
-Escolha um modelo disponível no seu provedor. A assinatura do ChatGPT não fornece uma chave de API. O provedor pode cobrar pelo uso e impor limites.
+Escolha um modelo disponível no seu provedor. A chave de API é independente de uma assinatura de chat. O provedor pode cobrar pelo uso e impor limites.
 
 ## Escolher entre modo manual e automático
 
